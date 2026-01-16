@@ -1,0 +1,3 @@
+2012-01-01 09:00 SanJose iPhone 699.0 Visa
+2012-01-01 09:02 SanJose Book 12.5 Cash
+2012-01-01 09:10 Boston Shoes 80.0 MasterCard

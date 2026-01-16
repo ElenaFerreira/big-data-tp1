@@ -24,6 +24,14 @@
       "mainClass": "hadoop.mapreduce.tp1.WordCount",
       "projectName": "wordcount",
       "args": ["wordcount/src/main/resources/input/file.txt", "wordcount/src/main/resources/output"]
+    },
+    {
+      "type": "java",
+      "name": "SalesByStore (local)",
+      "request": "launch",
+      "mainClass": "hadoop.mapreduce.tp1.SalesByStore",
+      "projectName": "wordcount",
+      "args": ["wordcount/src/main/resources/input", "wordcount/target/sales_output"]
     }
   ]
 }

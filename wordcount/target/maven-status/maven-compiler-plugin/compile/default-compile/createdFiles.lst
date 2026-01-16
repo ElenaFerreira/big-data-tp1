@@ -1,4 +1,7 @@
 hadoop/mapreduce/tp1/TokenizerMapper.class
 hadoop/mapreduce/tp1/WordCount.class
+hadoop/mapreduce/tp1/SalesByStoreMapper.class
 hadoop/mapreduce/tp1/IntSumReducer.class
 hadoop/mapreduce/tp1/Main.class
+hadoop/mapreduce/tp1/SalesByStore.class
+hadoop/mapreduce/tp1/SalesByStoreReducer.class
