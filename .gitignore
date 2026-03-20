@@ -1,0 +1,29 @@
+# Maven / Java
+**/target/
+**/*.class
+*.log
+hs_err_pid*
+
+# Spark (streaming checkpoints)
+**/checkpoints/
+**/checkpoint/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+nbproject/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.swp
+*.swo
+*.tmp
