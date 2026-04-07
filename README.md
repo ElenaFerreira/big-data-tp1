@@ -1,78 +1,82 @@
-# Big Data - TP1 / TP2 / TP3 (WordCount)
+# Big Data - Travaux Pratiques (M2)
 
-Ce depot regroupe plusieurs exercices de traitement de donnees :
+Ce depot regroupe l'ensemble des TPs du module Big Data, organises par seance et par technologie.
 
-## TP1 (Hadoop MapReduce)
+## Structure du depot
 
-Projet Maven : `TP1/wordcount`
+- `TP1/wordcount` : Hadoop MapReduce (batch)
+- `TP2/batch-wordcount/wordcount-batch` : Spark batch
+- `TP2/streaming-wordcount/wordcount-streaming` : Spark Structured Streaming
+- `TP3/spark-kafka/stream-kafka-spark` : Spark Structured Streaming + Kafka
+- `TP4/hello-hbase` et `TP4/hbase-spark` : prise en main HBase + integration Spark/HBase
+- `TP5/ecommerce-pipeline` : pipeline Big Data final de bout en bout
 
-- `WordCount <input path> <output path>`
-- `SalesByStore <input path> <output path>` (aggrege un montant par magasin)
+## Vue d'ensemble des TPs
 
-Le jar (avec dependances) est genere par :
+### TP1 - Hadoop MapReduce
+
+Objectif : implementer des traitements batch classiques avec MapReduce.
+
+Exemples :
+
+- `WordCount`
+- `SalesByStore` (agregation du montant par magasin)
+
+### TP2 - Spark (batch et streaming)
+
+Objectif : decouvrir Spark sur les deux modes d'execution.
+
+- Batch : `WordCountTask`
+- Streaming : `StructuredStreamingWordCount`
+
+### TP3 - Spark Streaming + Kafka
+
+Objectif : connecter un flux Kafka a un traitement Spark Structured Streaming.
+
+Le TP introduit la consommation de topics Kafka, la gestion des offsets et l'usage du checkpointing.
+
+### TP4 - HBase et integration avec Spark
+
+Objectif : manipuler HBase puis l'integrer dans un traitement Spark.
+
+Ce TP sert de transition vers la construction d'un pipeline complet avec stockage NoSQL.
+
+### TP5 - TP final : pipeline Big Data complet
+
+Ce TP est le point d'orgue des quatre seances precedentes. L'objectif est de construire un pipeline Big Data complet, de l'ingestion des donnees jusqu'a la consultation des resultats, en mobilisant l'ensemble des technologies vues en cours.
+
+Projet principal :
+
+- `TP5/ecommerce-pipeline`
+
+Composants mobilises :
+
+- ingestion via Kafka
+- traitement temps reel avec Spark Structured Streaming
+- stockage/agregation dans HBase
+- archivage des donnees brutes dans HDFS
+
+Pour les details d'execution, captures et choix techniques, voir le README du TP5 :
+
+- `TP5/ecommerce-pipeline/README.md`
+
+## Commandes utiles (rappel)
+
+Compilation Maven (exemple) :
 
 ```bash
-cd "TP1/wordcount"
+cd "TPX/<projet>"
 mvn package
 ```
 
-Lancer (Hadoop) :
+Execution (exemple Spark) :
 
 ```bash
-hadoop jar target/wordcount-1.0-SNAPSHOT-jar-with-dependencies.jar hadoop.mapreduce.tp1.WordCount <input> <output>
-hadoop jar target/wordcount-1.0-SNAPSHOT-jar-with-dependencies.jar hadoop.mapreduce.tp1.SalesByStore <input> <output>
+spark-submit --class <ClassePrincipale> target/<jar>.jar <args>
 ```
-
-Note `SalesByStore` : le mapper lit chaque ligne en separant par des espaces (au moins 6 tokens). Le nom du magasin est le token `tokens[2]` et le cout correspond a `tokens[tokens.length - 2]`.
-
-## TP2 (Spark)
-
-Projet Maven batch : `TP2/batch-wordcount/wordcount-batch`
-
-```bash
-cd "TP2/batch-wordcount/wordcount-batch"
-mvn package
-```
-
-Lancer :
-
-```bash
-spark-submit --class fr.dc.bigdata.WordCountTask target/wordcount-batch-1.0-SNAPSHOT.jar <input> <output>
-```
-
-Projet Maven streaming (Structured Streaming) : `TP2/streaming-wordcount/wordcount-streaming`
-
-```bash
-cd "TP2/streaming-wordcount/wordcount-streaming"
-mvn package
-```
-
-Lancer :
-
-```bash
-spark-submit --class fr.dc.bigdata.StructuredStreamingWordCount target/wordcount-streaming-1.0-SNAPSHOT.jar <host> <port>
-```
-
-Note : le `checkpointLocation` est configure par defaut sur `hdfs://hadoop-master:9000/tmp/ss-wordcount-checkpoint` (a adapter si besoin).
-
-## TP3 (Spark Structured Streaming + Kafka)
-
-Projet Maven : `TP3/spark-kafka/stream-kafka-spark`
-
-```bash
-cd "TP3/spark-kafka/stream-kafka-spark"
-mvn package
-```
-
-Lancer :
-
-```bash
-spark-submit --class spark.kafka.SparkKafkaWordCount target/stream-kafka-spark-1-jar-with-dependencies.jar <bootstrapServers> <topic> <groupId>
-```
-
-Note : le `checkpointLocation` est configure avec `hdfs://hadoop-master:9000/tmp/spark-kafka-wc-checkpoint-<topic>` (a adapter selon ton HDFS).
 
 ## Remarques generales
 
-- Pour les traitements streaming, la commande reste active (Ctrl+C pour arrêter).
-- Les chemins de sortie doivent généralement ne pas exister au moment du lancement.
+- Pour les traitements streaming, la commande reste active (Ctrl+C pour arreter).
+- Les chemins de sortie Hadoop/HDFS doivent generalement ne pas exister avant lancement.
+- Adapter les `checkpointLocation` et endpoints (`hdfs://`, Kafka bootstrap servers, etc.) a ton environnement.
